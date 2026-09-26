@@ -1,0 +1,5 @@
+id,latitude,longitude,timestamp,text,source,confidence
+I001,17.385,78.486,2025-01-15T10:15:00,"Smoke reported near the eastern road.",SIMULATED,0.72
+I002,17.401,78.495,2025-01-15T10:35:00,"Visible haze and ash near the field edge.",SIMULATED,0.68
+I003,18.206,79.365,2025-01-15T09:55:00,"Residents reported strong smoke drift overnight.",SIMULATED,0.61
+I004,13.082,80.274,2025-01-15T12:20:00,"Small flare observed near the industrial fence line.",SIMULATED,0.59
