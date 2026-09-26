@@ -17,6 +17,7 @@ from services.firms import fetch_firms_detections
 from services.fusion import build_review_queue
 from services.live_status import get_live_status
 from services.llm import generate_ai_summary
+from services.recommendations import build_resource_recommendations
 from services.summary import summarize_zone
 from services.weather import fetch_weather
 
@@ -197,6 +198,33 @@ with right_col:
         )
         st.caption(f"Detections: {zone['fire_count']} | Evidence: {', '.join(zone['evidence_factors'].keys())}")
         st.write(f"Reason: {zone['label']} for human review based on clustered detections and corroborating weather/incident signals.")
+
+st.subheader("Resource Planning Suggestions")
+st.caption(
+    "Illustrative prototype estimates only, not dispatch orders. Detection density is based on satellite-point footprint, not population density. "
+    "Confirm the fire perimeter, conditions, access, and resource needs with incident command."
+)
+resource_rows = []
+for zone in queue:
+    recommendation = build_resource_recommendations(zone)
+    density = recommendation["detection_density_per_100_km2"]
+    footprint = recommendation["estimated_footprint_km2"]
+    density_text = (
+        f"{density:.1f} detections / 100 km2 (footprint {footprint:.1f} km2)"
+        if density is not None and footprint is not None
+        else "Unavailable (need 2 distinct detection points)"
+    )
+    resource_rows.append({
+        "Zone": zone["zone_id"],
+        "Priority": zone["label"],
+        "Firefighter planning range": recommendation["personnel_range"],
+        "Estimated detection density": density_text,
+        "Equipment to assess": "; ".join(recommendation["equipment"]),
+    })
+if resource_rows:
+    st.dataframe(pd.DataFrame(resource_rows), width="stretch", hide_index=True)
+else:
+    st.info("No zone recommendations are available without fire detections.")
 
 selected_zone = next((z for z in filtered_queue if z["zone_id"] == st.session_state.selected_zone), filtered_queue[0] if filtered_queue else None)
 if selected_zone:

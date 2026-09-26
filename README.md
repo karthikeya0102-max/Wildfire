@@ -43,3 +43,9 @@ Ground-truth labels were not available for this simulated prototype; quantitativ
 ## Safety
 
 This system provides decision support for human review. It does not make autonomous life-critical decisions.
+
+## Resource planning suggestions
+
+The dashboard shows illustrative firefighter planning ranges based on prototype priority and detection-count tiers: 2-4, 4-8, or 8-12 personnel. These are not validated staffing standards or dispatch orders. Suggested equipment is a checklist for field assessment and incident-command review.
+
+Estimated detection density is calculated from the approximate bounding-box footprint of satellite detection points and is reported per 100 km2. It is not population density, fire perimeter, or burned area; it is unavailable when fewer than two distinct detection locations exist. Confirm all resource decisions using field reports, fire behavior, access, and incident command.
